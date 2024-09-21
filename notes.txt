@@ -1,0 +1,24 @@
+
+=> npx create-expo-app password_generator --template blank; expo with vanilla js 
+
+=> cd password_generator;
+
+=> npm install; 
+
+=> npx expo-doctor; ok!
+
+=> npx expo start; and choose (a) for android
+
+=> npx expo install expo-linear-gradient; add expo linear gradient
+
+=> npm install react-native-vector-icons; add goole materials icons react native
+
+=> npx expo install @expo/vector-icons; install expo materials icons
+
+=> npx expo install react-native-svg; install svg react native
+
+=> npx expo install @react-native-community/checkbox; install react native checkbox
+
+=> npx expo install expo-checkbox; install expo checkbox
+
+
