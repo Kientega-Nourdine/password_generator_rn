@@ -1,17 +1,33 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import Option from './src/components/options/Option';
 
 export default function App() {
 
   const [password, setPassword] = useState('')
-  const [isChecked, setIsChecked] = useState(true)
+  const [checkedOption, setCheckedOption] = useState({
+    uppercase: true,
+    lowercase: true,
+    numbers: true,
+    symbols: true,
+  });
+
+  // update specific option
+  const handleCheckChange = (id) => {
+    setCheckedOption((prevState) => ({ ...prevState, [id]: !prevState[id] })); 
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.generator}>
+
+        <TouchableOpacity style={styles.closeBtn} >
+          <MaterialIcons name='cancel' size={24} />
+        </TouchableOpacity>
+
         <Text style={styles.title}>Password Generator</Text> 
 
         <View style={styles.password_wrap}>
@@ -47,27 +63,23 @@ export default function App() {
             />
           </View>
 
-          <View style={styles.option}>
-            <Text style={styles.optionText}>Include Uppercase Letters:</Text>
-            <Checkbox color={isChecked ? '#2196F3' : undefined} style={styles.optionCheckboxInput} value={isChecked} />
-          </View>
-
-          <View style={styles.option}>
-            <Text style={styles.optionText}>Include Lowercase Letters:</Text>
-            <Checkbox color={isChecked ? '#2196F3' : undefined} style={styles.optionCheckboxInput} value={isChecked} />
-          </View>
-
-          <View style={styles.option}>
-            <Text style={styles.optionText}>Include Numbers:</Text>
-            <Checkbox color={isChecked ? '#2196F3' : undefined} style={styles.optionCheckboxInput} value={isChecked} />
-          </View>
-
-          <View style={styles.option}>
-            <Text style={styles.optionText}>Include Symbols:</Text>
-            <Checkbox color={isChecked ? '#2196F3' : undefined} style={styles.optionCheckboxInput} value={isChecked} />
-          </View>
+          <Option id="uppercase" title='Include Uppercase Letters:' checked={checkedOption.uppercase} onChangeChecked={handleCheckChange} />
+          <Option id="lowercase" title='Include Lowercase Letters:' checked={checkedOption.lowercase} onChangeChecked={handleCheckChange} />
+          <Option id="numbers" title='Include Numbers:' checked={checkedOption.numbers} onChangeChecked={handleCheckChange} />
+          <Option id="symbols" title='Include Symbols:' checked={checkedOption.symbols} onChangeChecked={handleCheckChange} />
 
         </View>
+
+        <TouchableOpacity onPress={() => {}}>
+          <LinearGradient 
+            colors={['#ad25fc', '#518cd4']}
+            start={[0, 0]}
+            end={[1, 0]}
+            style={styles.submitBtn}
+          >
+            <Text style={styles.submitBtnText}>Generate Password</Text>
+          </LinearGradient>
+        </TouchableOpacity>
 
       </View>
     </View>
@@ -84,12 +96,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#282847',
   },
   generator: {
+    position: 'relative',
     width: '100%',
     maxWidth: 640,
     backgroundColor: '#fff',
     borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 32,
+    paddingTop: 32,
+    paddingBottom: 20,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
   },
   title: {
     color: '#282847',
@@ -106,12 +125,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   password_wrapInput: {
-    // borderWidth: 1,
     flex: 1,
     padding: 6,
     color: '#282847',
     fontStyle: 'italic',
-
   },
   gradientContainer: {
     position: 'absolute',
@@ -139,5 +156,18 @@ const styles = StyleSheet.create({
   optionCheckboxInput: {
     width: 16,
     height: 16,
+  },
+  submitBtn: {
+    marginTop: 4,
+    marginBottom: 0,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+  },
+  submitBtnText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
   }
 });
